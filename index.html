@@ -29,7 +29,7 @@ footer{color:var(--muted);font-size:.82rem;margin-top:25px}code{background:#2233
 @media(max-width:630px){.wrap{padding:16px 12px 50px}.metrics{grid-template-columns:1fr 1fr}.metrics .metric:last-child{grid-column:1/-1}nav button{min-width:0;font-size:.84rem;padding:11px 9px}.choice{font-size:.94rem}}
 </style></head>
 <body><main class="wrap">
-<header class="mast"><div class="brand"><small>Wersja 1.0 • testy kwalifikowanego pracownika ochrony</small><h1>Egzamin Broń <span style="color:var(--sky)">/ Ochrona</span></h1><p>Dopuszczenie do posiadania broni • nauka • próbny egzamin</p></div><span class="status" id="bankStatus">Ładowanie…</span></header>
+<header class="mast"><div class="brand"><small>Wersja 1.1 • testy kwalifikowanego pracownika ochrony</small><h1>Egzamin Broń <span style="color:var(--sky)">/ Ochrona</span></h1><p>Dopuszczenie do posiadania broni • nauka • próbny egzamin</p></div><span class="status" id="bankStatus">Ładowanie…</span></header>
 <nav aria-label="Menu aplikacji">
 <button class="active" data-nav="home">Start</button><button data-nav="learn">Nauka ABC</button><button data-nav="exam">Egzamin</button><button data-nav="mistakes">Moje błędy</button><button data-nav="bank">200 pytań</button><button data-nav="settings">Wyniki / kopia</button></nav>
 <div id="screen" aria-live="polite"></div>
@@ -156,7 +156,7 @@ function exportJson(){
 function doImport(file){
  if(!file||file.size>2e6){alert("Nieprawidłowy plik.");return}
  const reader=new FileReader();
- reader.onload=()=>{try{const x=JSON.parse(reader.result);if(x.app!=="egzamin-bron-ochrona"||!x.saved||typeof x.saved.wrong!=="object"||!Array.isArray(x.saved.history)||typeof x.saved.seen!=="object")throw Error("Nieprawidłowy format");saved=x.saved;persist();renderSettings();alert("Wyniki zaimportowane.");}catch(e){alert("Nie udało się odczytać kopii: "+e.message)}};
+ reader.onload=()=>{try{const x=JSON.parse(reader.result);if(x.app!=="egzamin-bron-ochrona"||!x.saved||typeof x.saved.wrong!=="object"||!Array.isArray(x.saved.history)||typeof x.saved.seen!=="object")throw Error("Nieprawidłowy format");saved=upgradeSavedFromImport(x.saved);persist();renderSettings();alert("Wyniki zaimportowane.");}catch(e){alert("Nie udało się odczytać kopii: "+e.message)}};
  reader.readAsText(file);
 }
 document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>switchView(b.dataset.nav)));
@@ -170,7 +170,7 @@ scr.addEventListener("click",e=>{
   case "again":initLesson(lesson?.mode==="wrong"?"wrong":"all");break;
   case "next":if(view==="learn"){lesson.i++;lesson.checked=false;lesson.selected=null;renderLearn()}else if(exam){exam.i=Math.min(exam.total-1,exam.i+1);renderExam()}break;
   case "prev":if(exam){exam.i=Math.max(0,exam.i-1);renderExam()}break;
-  case "reveal":if(lesson&&!lesson.checked){lesson.checked=true;lesson.selected=null;saved.seen[lesson.questions[lesson.i].n]=true;persist();renderLearn()}break;
+  case "reveal":if(lesson&&!lesson.checked){lesson.checked=true;lesson.selected=null;saved.seen[lesson.questions[lesson.i].n]=true;recordShownForReview(lesson.questions[lesson.i].n);persist();renderLearn()}break;
   case "exam":switchView("exam");break;
   case "quick":case "startQuick":startExam("quick");break;
   case "startFull":startExam("full");break;
@@ -184,4 +184,103 @@ scr.addEventListener("click",e=>{
 scr.addEventListener("change",e=>{if(e.target.id==="catSelect"){filter=e.target.value;renderBank()}if(e.target.id==="jsonInput")doImport(e.target.files[0])});
 scr.addEventListener("input",e=>{if(e.target.id==="searchInput"){search=e.target.value;const p=e.target.selectionStart;renderBank();const x=document.getElementById("searchInput");if(x){x.focus();x.setSelectionRange(p,p)}}});
 home();
-</script></body></html>
+</script>
+<!-- TRWALA_BAZA_BLEDOW_V2 -->
+<script>
+(function(){
+"use strict";
+const originalPick=pickLesson,originalFinish=finishExam,originalInit=initLesson;
+const originalMistakeRenderer=renderMistakes,originalHome=home;
+let showMistakes="pending";
+function upgrade(st){
+ if(!st||typeof st!=="object")return st;
+ if(!st.mistakes||typeof st.mistakes!=="object"||Array.isArray(st.mistakes))st.mistakes={};
+ for(const [id,num] of Object.entries(st.wrong||{})){
+  if(Number(id)>=1&&Number(id)<=200&&Number(num)>0&&!st.mistakes[id]){
+   st.mistakes[id]={wrong:Number(num),correct:0,shown:0,streak:0,mastered:false,lastWrong:null};
+  }
+ }
+ return st;
+}
+upgrade(saved);
+window.upgradeSavedFromImport=upgrade;
+function entries(){return Q.filter(q=>saved.mistakes[q.n])}
+function due(){return entries().filter(q=>!saved.mistakes[q.n].mastered)}
+function track(n,ok,shown=false){
+ upgrade(saved);
+ let m=saved.mistakes[n];
+ if(!m&&ok)return;
+ if(!m)m=saved.mistakes[n]={wrong:0,correct:0,shown:0,streak:0,mastered:false,lastWrong:null};
+ if(ok){m.correct++;m.streak++;if(m.streak>=3)m.mastered=true;}
+ else{if(shown)m.shown++;else m.wrong++;m.lastWrong=new Date().toISOString();m.streak=0;m.mastered=false;}
+ m.lastAttempt=new Date().toISOString();
+ saved.wrong[n]=m.mastered?0:Math.max(1,Number(saved.wrong[n])||0);
+}
+function mastery(n,mastered){
+ const m=saved.mistakes[n];if(!m)return;
+ m.mastered=mastered;m.streak=mastered?Math.max(m.streak,3):0;
+ saved.wrong[n]=mastered?0:Math.max(1,m.wrong||0);persist();renderMistakes();
+}
+window.recordShownForReview=function(n){track(n,false,true)};
+wrongNum=function(){return due().length};
+pickLesson=function(i){
+ if(!lesson||lesson.checked)return;
+ const q=lesson.questions[lesson.i],wasCorrect=(i===q.correct);
+ originalPick(i);
+ track(q.n,wasCorrect);
+ persist();
+};
+finishExam=function(){
+ const wasActive=!!exam?.active;
+ const attempt=wasActive?exam.questions.map((q,i)=>({n:q.n,ok:exam.answers[i]===q.correct})):null;
+ originalFinish();
+ if(wasActive&&!exam.active){
+  for(const x of attempt)track(x.n,x.ok);
+  persist();
+ }
+};
+initLesson=function(mode="all",exact=null){
+ if(mode!=="wrong"&&mode!=="allWrong")return originalInit(mode,exact);
+ let list=(mode==="wrong"?due():entries());
+ list.sort((a,b)=>(saved.mistakes[b.n].wrong+saved.mistakes[b.n].shown)-(saved.mistakes[a.n].wrong+saved.mistakes[a.n].shown)||a.n-b.n);
+ lesson={questions:list,i:0,selected:null,checked:false,mode};
+ view="learn";
+ document.querySelectorAll("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav==="learn"));
+ renderLearn();
+};
+renderMistakes=function(){
+ const all=entries(),pending=due(),done=all.filter(q=>saved.mistakes[q.n].mastered);
+ const list=(showMistakes==="pending"?pending:showMistakes==="mastered"?done:all)
+  .sort((a,b)=>(saved.mistakes[b.n].wrong+saved.mistakes[b.n].shown)-(saved.mistakes[a.n].wrong+saved.mistakes[a.n].shown)||a.n-b.n);
+ scr.innerHTML=panel('<h2>Moja baza błędnych odpowiedzi</h2><p class="muted">Pytania, które rozwiążesz źle, zostają tutaj na stałe. Widzisz, ile razy popełniłeś błąd. Pytania, których odpowiedź tylko podejrzałeś, też trafiają do powtórek.</p><div class="metrics"><div class="metric"><b>'+all.length+'</b><span>zapisanych pytań</span></div><div class="metric"><b>'+pending.length+'</b><span>do powtórki</span></div><div class="metric"><b>'+done.length+'</b><span>opanowanych</span></div></div><div class="note">Pytanie oznaczy się automatycznie jako opanowane po <b>3 poprawnych odpowiedziach z rzędu</b>. Zawsze możesz ręcznie przywrócić je do powtórek.</div><div class="actions">'+btn("Powtarzaj błędy ("+pending.length+")","practiceWrong")+btn("Ćwicz całą bazę ("+all.length+")","practiceAllWrong","ghost")+'</div><div class="actions">'+btn("Do powtórki","filterDue",showMistakes==="pending"?"":"ghost")+btn("Opanowane","filterMastered",showMistakes==="mastered"?"":"ghost")+btn("Wszystkie błędy","filterAll",showMistakes==="all"?"":"ghost")+'</div><h3>Lista pytań ('+list.length+')</h3>'+
+ (list.length?list.map(q=>{
+  const m=saved.mistakes[q.n];
+  return '<div class="review"><button class="item" data-open="'+q.n+'"><b>Pytanie nr '+q.n+'</b>: '+h(q.stem)+'<span class="muted" style="display:block;margin-top:6px">Błędy: '+m.wrong+' • Podejrzane: '+m.shown+' • Poprawne z rzędu: '+m.streak+'/3</span></button><button style="margin:3px 0 9px" class="btn ghost" data-mastery="'+q.n+'">'+(m.mastered?"Wróć do powtórek":"Oznacz jako opanowane ✓")+'</button></div>'
+ }).join(""):'<p class="muted">W tej kategorii nie ma jeszcze pytań.</p>'));
+};
+home=function(){
+ originalHome();
+ const first=scr.querySelector(".panel");
+ if(first){
+  const b=document.createElement("div");
+  b.className="actions";
+  b.innerHTML=btn("Baza błędów: "+entries().length+" zapisanych / "+due().length+" do powtórki","goMistakes","ghost");
+  first.appendChild(b);
+ }
+};
+scr.addEventListener("click",function(ev){
+ const mark=ev.target.closest("[data-mastery]");
+ if(mark){const n=Number(mark.dataset.mastery);mastery(n,!saved.mistakes[n].mastered);return}
+ const a=ev.target.closest("[data-action]");if(!a)return;
+ switch(a.dataset.action){
+  case "goMistakes":switchView("mistakes");break;
+  case "practiceAllWrong":initLesson("allWrong");break;
+  case "filterDue":showMistakes="pending";renderMistakes();break;
+  case "filterMastered":showMistakes="mastered";renderMistakes();break;
+  case "filterAll":showMistakes="all";renderMistakes();break;
+ }
+});
+home();
+})();
+</script>
+</body></html>
