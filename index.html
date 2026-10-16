@@ -207,7 +207,9 @@ window.upgradeSavedFromImport=upgrade;
 function entries(){return Q.filter(q=>saved.mistakes[q.n])}
 function due(){return entries().filter(q=>!saved.mistakes[q.n].mastered)}
 function track(n,ok,shown=false){
- upgrade(saved);
+ // Migracja starych postępów odbywa się przy uruchomieniu lub imporcie.
+ // Nie migruj ponownie po zmianie legacy wrong podczas odpowiedzi.
+ if(!saved.mistakes)saved.mistakes={};
  let m=saved.mistakes[n];
  if(!m&&ok)return;
  if(!m)m=saved.mistakes[n]={wrong:0,correct:0,shown:0,streak:0,mastered:false,lastWrong:null};
