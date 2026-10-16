@@ -21,6 +21,9 @@ Wystarczy otworzyć plik `index.html` w przeglądarce lub opublikować katalog g
 - Symulacja 20 pytań na 30 minut; 18 poprawnych do zaliczenia.
 - Szybki test 10 pytań, wyszukiwarka całej bazy, powtórki błędów.
 - Historia wyników przechowywana w `localStorage` oraz eksport i import JSON.
+- **Trwała baza błędów:** wszystkie nowe pomyłki są zapisywane i nie znikają po poprawnym rozwiązaniu; liczba błędów, przegląd wszystkich problematycznych pytań.
+- **Powtórki:** automatyczne oznaczenie jako opanowane po 3 poprawnych odpowiedziach z rzędu, ręczne oznaczanie i przywracanie do powtórek.
+- **Zachowanie dotychczasowych danych:** aktywne błędy z wcześniejszej wersji są przenoszone przy otwarciu nowej strony. Błędów wymazanych przez dawny program nie da się odzyskać.
 - Działa na telefonie i komputerze, offline po zapisaniu pliku.
 
 ## Ważne informacje o odpowiedziach
