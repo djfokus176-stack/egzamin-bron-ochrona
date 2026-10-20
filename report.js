@@ -2,7 +2,7 @@
 "use strict";
 (function(){
  const issuesUrl="https://github.com/djfokus176-stack/egzamin-bron-ochrona/issues/new";
- const confirmed=new Map([[11,"art. 5 ust. 3"],[50,"art. 10 ust. 6 pkt 4"],[67,"art. 12 ust. 2"]]);
+ const confirmed=new Map([[11,"art. 5 ust. 3"],[50,"art. 10 ust. 6 pkt 4"],[67,"art. 12 ust. 2"],[155,"art. 34 ust. 1"]]);
  const originalQuestion=qMarkup;
  qMarkup=function(q,answer,lock,selected){
   const original=originalQuestion(q,answer,lock,selected);
