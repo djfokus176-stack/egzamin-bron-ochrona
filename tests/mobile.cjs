@@ -23,3 +23,9 @@ assert.equal(key[49],"B","Q50 should be B per art 10(6)(4)");
 assert.equal(key[66],"A","Q67 should be A per art 12(2)");
 assert.equal(key[154],"A","Q155 should be A per art 34(1)");
 console.log("OK mobile: native scaffold, manifest, offline resources, reporting script syntax, privacy, fixes Q11 Q50 Q67");
+
+assert(fs.existsSync("assets/logo.svg"),"No app logo source");
+assert(fs.existsSync(".github/workflows/play-aab.yml"),"No AAB build workflow");
+assert(fs.readFileSync(".github/workflows/play-aab.yml","utf8").includes("bundleRelease"));
+assert(fs.readFileSync(".github/workflows/play-aab.yml","utf8").includes("targetSdkVersion"));
+assert(pkg.dependencies["@capacitor/browser"],"Native browser missing");

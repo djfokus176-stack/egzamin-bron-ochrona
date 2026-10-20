@@ -47,3 +47,7 @@ Wyniki nie są wysyłane na serwer ani na GitHub. Dane znikną po wyczyszczeniu 
 ## Rozwój
 
 Przed publiczną sprzedażą konieczny jest audyt klucza i podstaw prawnych, weryfikacja licencji do materiałów, testy na urządzeniach mobilnych, właściwe informacje prawne i regulamin. Repozytorium jest obecnie prototypem treningowym.
+
+## Publikacja Android
+
+Proces budowania AAB (z podpisem dopiero po konfiguracji klucza właściciela) opisano w [PLAY_UPLOAD_KEY.md](PLAY_UPLOAD_KEY.md). Aplikacja docelowo korzysta z API 36. Wersja próbna **nie została jeszcze dopuszczona do publicznej sprzedaży**.

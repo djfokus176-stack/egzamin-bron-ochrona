@@ -34,10 +34,16 @@
    "\nPodstawa w pytaniu: "+q.reference+
    "\nOficjalny wykaz: https://ksp.policja.gov.pl/download/188/236472/PYTANIAEGZAMINACYJNE.pdf";
  }
- dialog.querySelector("#reportSend").addEventListener("click",function(){
+ dialog.querySelector("#reportSend").addEventListener("click",async function(){
   const title="[Pytanie #"+current+"] "+dialog.querySelector("#reportKind").value;
   const url=issuesUrl+"?title="+encodeURIComponent(title)+"&body="+encodeURIComponent(reportText());
-  window.open(url,"_blank","noopener,noreferrer");
+  // Capacitor: otwórz zgłoszenie w systemowej przeglądarce, aby logowanie na GitHub działało na Androidzie i iOS.
+  let opened=false;
+  try{
+   const b=window.Capacitor?.Plugins?.Browser;
+   if(window.Capacitor?.isNativePlatform?.() && b?.open){await b.open({url});opened=true;}
+  }catch(e){console.warn("Nie udało się uruchomić przeglądarki systemowej",e);}
+  if(!opened){const w=window.open(url,"_blank","noopener,noreferrer");if(!w)window.location.href=url;}
   if(typeof dialog.close==="function")dialog.close();else dialog.removeAttribute("open");
  });
  dialog.querySelector("#reportCopy").addEventListener("click",async function(){

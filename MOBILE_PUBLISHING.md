@@ -1,6 +1,6 @@
 # Wersja mobilna — Android i iPhone (projekt testowy)
 
-Repozytorium zawiera **kod aplikacji** i konfigurację Capacitor 8. **Nie jest jeszcze gotowym plikiem APK, AAB ani IPA**. Nie wymaga serwera do nauki. Po zbudowaniu cała baza pytań jest osadzona w aplikacji.
+Repozytorium zawiera **kod aplikacji** i konfigurację Capacitor 8. **Umożliwia kompilację APK testowego i AAB Android**. Nie wymaga serwera do nauki. Po zbudowaniu cała baza pytań jest osadzona w aplikacji.
 
 ## Szybki test APK bez Android Studio
 
@@ -54,3 +54,7 @@ Po otwarciu projektu w Xcode ustaw swój team podpisujący i przeprowadź archiw
 
 ## Koszt i konta
 Google Play Console: opłata rejestracyjna ok. **25 USD jednorazowo**. Dla nowych kont osobistych zwykle wymagany jest test zamknięty (12 osób przez 14 dni). Apple Developer Program: **99 USD rocznie**. Tworzenie i testowanie prototypu lokalnie nie wymaga od razu opłaty sklepowej.
+
+## AAB do Google Play
+
+Gotowy proces kompilacji jest w [Play Console — Android AAB](https://github.com/djfokus176-stack/egzamin-bron-ochrona/actions/workflows/play-aab.yml), a instrukcja bezpiecznego podpisywania w [PLAY_UPLOAD_KEY.md](PLAY_UPLOAD_KEY.md). Bez ustawienia klucza workflow utworzy **niepodpisany** AAB — nie nadaje się on do publikacji. 

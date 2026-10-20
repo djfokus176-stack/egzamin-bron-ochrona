@@ -1,0 +1,92 @@
+name: Play Console — Android AAB
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/play-aab.yml'
+jobs:
+  build-aab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Prepare web and Android app
+        run: |
+          npm run prepare:web
+          npx cap add android
+          npx @capacitor/assets generate --android --iconBackgroundColor '#0b1323' --splashBackgroundColor '#0b1323'
+      - name: Verify Google Play API 36 requirement
+        run: |
+          cat android/variables.gradle
+          grep -Eq 'targetSdkVersion[[:space:]]*=[[:space:]]*36' android/variables.gradle
+          grep -Eq 'compileSdkVersion[[:space:]]*=[[:space:]]*36' android/variables.gradle
+          sed -i -E 's/versionName "[^"]+"/versionName "1.3.0"/' android/app/build.gradle
+          sed -i -E 's/versionCode [0-9]+/versionCode 2/' android/app/build.gradle
+      - name: Set up signing only when owner configured private GitHub Secrets
+        env:
+          UPLOAD_KEYSTORE_B64: ${{ secrets.PLAY_UPLOAD_KEYSTORE_B64 }}
+          UPLOAD_STORE_PASSWORD: ${{ secrets.PLAY_UPLOAD_STORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.PLAY_UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.PLAY_UPLOAD_KEY_PASSWORD }}
+        run: |
+          if [[ -n "$UPLOAD_KEYSTORE_B64" && -n "$UPLOAD_STORE_PASSWORD" && -n "$UPLOAD_KEY_ALIAS" && -n "$UPLOAD_KEY_PASSWORD" ]]; then
+            printf '%s' "$UPLOAD_KEYSTORE_B64" | base64 --decode > android/app/play-upload.jks
+            cat >> android/app/build.gradle <<'GRADLE'
+          
+          android {
+              signingConfigs {
+                  playUpload {
+                      storeFile file("play-upload.jks")
+                      storePassword System.getenv("UPLOAD_STORE_PASSWORD")
+                      keyAlias System.getenv("UPLOAD_KEY_ALIAS")
+                      keyPassword System.getenv("UPLOAD_KEY_PASSWORD")
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.playUpload
+                  }
+              }
+          }
+          GRADLE
+            echo "PODPISANY: skonfigurowano prywatny klucz wydawcy." > SIGNING_STATUS.txt
+          else
+            echo "NIEPODPISANY: ustaw cztery sekrety PLAY_UPLOAD_* opisane w PLAY_UPLOAD_KEY.md i uruchom build ponownie." > SIGNING_STATUS.txt
+          fi
+      - name: Build Android App Bundle
+        env:
+          UPLOAD_STORE_PASSWORD: ${{ secrets.PLAY_UPLOAD_STORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.PLAY_UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.PLAY_UPLOAD_KEY_PASSWORD }}
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew --no-daemon bundleRelease
+          ls -l app/build/outputs/bundle/release
+      - name: Verify signature if upload key was supplied
+        run: |
+          if grep -q '^PODPISANY' SIGNING_STATUS.txt; then
+            jarsigner -verify android/app/build/outputs/bundle/release/*.aab
+          else
+            echo "UWAGA: tego AAB nie wolno wysyłać do Google Play bez podpisania kluczem uploadowym."
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quiz-ochrona-play-aab
+          path: |
+            android/app/build/outputs/bundle/release/*.aab
+            SIGNING_STATUS.txt
+          retention-days: 14
+          if-no-files-found: error
