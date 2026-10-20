@@ -2,6 +2,22 @@
 
 Repozytorium zawiera **kod aplikacji** i konfigurację Capacitor 8. **Nie jest jeszcze gotowym plikiem APK, AAB ani IPA**. Nie wymaga serwera do nauki. Po zbudowaniu cała baza pytań jest osadzona w aplikacji.
 
+## Szybki test APK bez Android Studio
+
+GitHub może automatycznie zbudować **testowy APK** (nie nadaje się do wysyłania do sklepu jako produkcyjna aplikacja):
+
+1. Otwórz [Android APK (testowy)](https://github.com/djfokus176-stack/egzamin-bron-ochrona/actions/workflows/android-debug.yml).
+2. Wybierz zakończone działanie ze statusem **Success**, a następnie w sekcji **Artifacts** pobierz `quiz-ochrona-android-debug-apk`.
+3. Rozpakuj pobrany ZIP i zainstaluj `app-debug.apk` na swoim telefonie Android. Instaluj tylko plik z Twojego własnego repozytorium. System może poprosić o jednorazową zgodę na instalowanie aplikacji spoza sklepu.
+4. Jeśli potrzeba nowej kompilacji, wybierz **Run workflow**. Artefakty testowe mogą wygasnąć po 14 dniach.
+
+**Ważne:** dla Google Play wymagany jest docelowy podpisany pakiet AAB, opublikowany przez zweryfikowane konto Google Play Console. Debug APK nie zastępuje wersji sklepowej.
+
+## Instalacja za darmo już teraz
+
+- **Android:** Chrome → otwórz <https://djfokus176-stack.github.io/egzamin-bron-ochrona/> → menu (⋮) → **Zainstaluj aplikację** / **Dodaj do ekranu głównego** (jeśli przeglądarka proponuje opcję).
+- **iPhone:** Safari → otwórz ten sam link → Udostępnij → **Dodaj do ekranu początkowego**. To instalacja PWA, **nie** publikacja w App Store.
+
 ## Android na Windows
 1. Zainstaluj Node.js w wersji wspieranej przez Capacitor 8, Android Studio oraz wymagane Android SDK/JDK. Sprawdź wymagania w [dokumentacji Capacitor](https://capacitorjs.com/docs/getting-started/environment-setup).
 2. Pobierz repozytorium lub wykonaj `git clone https://github.com/djfokus176-stack/egzamin-bron-ochrona.git`.
