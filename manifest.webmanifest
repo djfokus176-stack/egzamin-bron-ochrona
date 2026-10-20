@@ -1,0 +1,20 @@
+{
+  "name": "Quiz Ochrona — Broń i prawo",
+  "short_name": "Quiz Ochrona",
+  "description": "Niezależna aplikacja do nauki do egzaminu na dopuszczenie do posiadania broni. Nie jest aplikacją Policji.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1323",
+  "theme_color": "#0b1323",
+  "lang": "pl",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
