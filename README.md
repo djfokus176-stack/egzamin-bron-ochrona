@@ -26,6 +26,10 @@ Wystarczy otworzyć plik `index.html` w przeglądarce lub opublikować katalog g
 - **Zachowanie dotychczasowych danych:** aktywne błędy z wcześniejszej wersji są przenoszone przy otwarciu nowej strony. Błędów wymazanych przez dawny program nie da się odzyskać.
 - Działa na telefonie i komputerze, offline po zapisaniu pliku.
 
+## Zgłaszanie błędów i aplikacje mobilne
+
+Od wersji 1.2 przy pytaniach działa przycisk zgłoszenia błędu do publicznych GitHub Issues (zalogowanie kontem GitHub jest wymagane). Udostępniono manifest PWA, działanie offline i konfigurację Android/iOS w Capacitor; szczegóły w [MOBILE_PUBLISHING.md](MOBILE_PUBLISHING.md). Klucz poprawiono dla pytań 11, 50, 67 oraz 155 według wskazanych przepisów.
+
 ## Ważne informacje o odpowiedziach
 
 Policja publikuje pytania bez oficjalnego klucza. Klucz odpowiedzi programu jest **nieoficjalnym opracowaniem edukacyjnym i wymaga niezależnego audytu przed komercjalizacją**. Przed egzaminem sprawdzaj aktualne przepisy. W szczególności poprawiono roboczą odpowiedź na pytanie 134 (A) zgodnie z art. 28 ustawy, ale całość klucza nie jest jeszcze po audycie.
