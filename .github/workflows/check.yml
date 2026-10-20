@@ -12,3 +12,5 @@ jobs:
         with:
           node-version: '22'
       - run: node tests/smoke.cjs
+      - run: node tests/mobile.cjs
+      - run: node scripts/prepare-web.mjs
