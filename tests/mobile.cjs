@@ -21,4 +21,5 @@ const key=JSON.parse(m[1]);assert.equal(key.length,200);
 assert.equal(key[10],"B","Q11 should be B per art 5(3)");
 assert.equal(key[49],"B","Q50 should be B per art 10(6)(4)");
 assert.equal(key[66],"A","Q67 should be A per art 12(2)");
+assert.equal(key[154],"A","Q155 should be A per art 34(1)");
 console.log("OK mobile: native scaffold, manifest, offline resources, reporting script syntax, privacy, fixes Q11 Q50 Q67");
