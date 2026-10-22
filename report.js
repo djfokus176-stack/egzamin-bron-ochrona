@@ -7,7 +7,7 @@
  qMarkup=function(q,answer,lock,selected){
   const original=originalQuestion(q,answer,lock,selected);
   const note=q.n===134?'<div class="note">Pytanie 134: niejednoznaczne sformułowanie względem art. 28 ustawy. Pozostaje dostępne do nauki, ale nie jest uwzględniane w losowych testach ocenianych do czasu weryfikacji.</div>':'';
-  return original+note+'<div class="actions'><button type="button" class="btn ghost" data-report-question="'+q.n+'">⚑ Zgłoś błąd w pytaniu #'+q.n+'</button></div>'+
+  return original+note+'<div class="actions"><button type="button" class="btn ghost" data-report-question="'+q.n+'">⚑ Zgłoś błąd w pytaniu #'+q.n+'</button></div>'+
    '<p class="muted">Klucz nieoficjalny. '+(confirmed.has(q.n)?'Zweryfikowano poprawkę na podstawie '+h(confirmed.get(q.n))+'.':'Odpowiedź nie została jeszcze indywidualnie zatwierdzona po audycie prawnym.')+'</p>';
  };
  const dialog=document.createElement("dialog");
