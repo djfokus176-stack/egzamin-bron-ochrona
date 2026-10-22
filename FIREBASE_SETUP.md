@@ -60,3 +60,7 @@ Nie używaj fikcyjnych wartości z tego przykładu. Nazwa projektu widoczna w pa
 Konfiguracja została już ustawiona przez właściciela w czacie; wejdź na https://djfokus176-stack.github.io/egzamin-bron-ochrona/account.html i przetestuj konto dopiero po aktywacji Email/Password i utworzeniu Firestore z regułami.
 
 **Uwaga:** obecny ekran nie weryfikuje jeszcze zakupów, nie blokuje nauki i nie zapewnia egzekwowania 3 dni przeciwko zakładaniu nowych kont. Przygotowanie frontendu nie oznacza uruchomienia płatnej usługi.
+
+## 6. Google Play Billing — kod przygotowany, sprzedaż wyłączona
+
+W repozytorium znajduje się `native/PlayBillingPlugin.java` i backend `functions/index.js`. Aktualnie `billing-config.js` ma `BILLING_ENABLED = false`, więc nikt nie może zostać obciążony za pomocą nieuruchomionej funkcji serwerowej. Procedura uruchomienia jest w [PAYMENTS_SETUP.md](PAYMENTS_SETUP.md).

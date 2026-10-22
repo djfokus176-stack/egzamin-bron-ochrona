@@ -10,6 +10,11 @@ on:
       - 'scripts/prepare-web.mjs'
       - 'index.html'
       - 'report.js'
+      - 'account.js'
+      - 'account.html'
+      - 'billing-config.js'
+      - 'native/**'
+      - 'scripts/prepare-android-billing.mjs'
 jobs:
   debug-apk:
     runs-on: ubuntu-latest
@@ -31,6 +36,7 @@ jobs:
         run: |
           npm run prepare:web
           npx cap add android
+          node scripts/prepare-android-billing.mjs
       - name: Build installable test APK
         run: |
           chmod +x android/gradlew

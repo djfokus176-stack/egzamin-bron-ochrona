@@ -21,7 +21,12 @@ button.secondary{background:#243a58;color:#f1f6ff;border:1px solid #50708d}butto
 <p class="muted">Testy na Broń – Ochrona • niezależna aplikacja edukacyjna, niepowiązana z Policją</p>
 <section class="panel"><h2>Plan dostępu</h2>
 <p><strong>3 dni bezpłatnej próby</strong> od pierwszego potwierdzonego logowania. Potem planowany dostęp za 5 zł na 7 dni, bez automatycznego odnawiania.</p>
-<p class="muted"><strong>Uwaga:</strong> płatności Google Play nie są jeszcze uruchomione, a nauka na razie pozostaje dostępna bez blokady. Ten ekran służy do testowania konta i okresu próbnego.</p>
+<p class="muted"><strong>Etap testowy:</strong> kod Android Billing i weryfikacji zakupów jest przygotowany. Płatności będą aktywne dopiero po uruchomieniu produktu w Play Console i wdrożeniu zaufanej usługi serwerowej. Do tego momentu nauka jest bezpłatna.</p>
+<div id="billingSection" class="hidden">
+ <p id="billingMessage" class="status" role="status">Sprawdzam możliwość zakupu…</p>
+ <div class="actions"><button id="purchase" type="button" disabled>Kup 7 dni dostępu</button><button id="restorePurchase" type="button" class="secondary" disabled>Sprawdź niedokończony zakup</button></div>
+ <p class="muted">Jednorazowy zakup, bez automatycznego odnawiania. Cena zostanie pokazana przez Google Play przed potwierdzeniem.</p>
+</div>
 </section>
 <section class="panel" aria-labelledby="accountHeading">
 <h2 id="accountHeading">Rejestracja / logowanie</h2>

@@ -2,6 +2,7 @@
 // Klucze projektu w firebase-config.js są publiczną konfiguracją klienta,
 // ale nigdy nie wolno tu umieszczać sekretów / konta administracyjnego.
 import { firebaseConfig } from "./firebase-config.js";
+import { BILLING_ENABLED, PRODUCT_ID } from "./billing-config.js";
 
 const $ = id => document.getElementById(id);
 const show=(id,yes)=>$(id).classList.toggle("hidden",!yes);
@@ -32,6 +33,40 @@ if(!firebaseConfig?.apiKey||!firebaseConfig?.authDomain||!firebaseConfig?.projec
    import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
   ]);
   const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+  // Uwaga: zakup może się rozpocząć WYŁĄCZNIE po wdrożeniu bezpiecznej weryfikacji.
+  const billingPlugin=window.Capacitor?.isNativePlatform?.() ? window.Capacitor?.Plugins?.PlayBilling : null;
+  let nativeBillingReady=false;
+  let verifyPurchase;
+  if(BILLING_ENABLED && billingPlugin){
+    try{
+      const {getFunctions,httpsCallable}=await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js");
+      verifyPurchase=httpsCallable(getFunctions(app,"europe-west1"),"verifyPlayPurchase");
+      const result=await billingPlugin.product();
+      if(result.productId===PRODUCT_ID){
+        nativeBillingReady=true;
+        $("purchase").textContent="Kup 7 dni za "+(result.formattedPrice||"cenę z Google Play");
+        $("purchase").disabled=false;
+        $("restorePurchase").disabled=false;
+      }
+      await billingPlugin.addListener("purchase",async data=>{
+        if(data.state!=="PURCHASED"){say("Płatność oczekuje na potwierdzenie w Google Play.");return}
+        await action(async()=>{
+          say("Weryfikuję płatność na serwerze. Nie zamykaj aplikacji.");
+          const response=await verifyPurchase({purchaseToken:data.purchaseToken});
+          if(!response.data?.ok)throw Error("verification-failed");
+          await refreshAccount();
+          say("Płatność zweryfikowana. Dostęp przedłużony.");
+        });
+      });
+      await billingPlugin.restore();
+    }catch(e){
+      console.warn("Google Play Billing niegotowe",e?.code||e?.message);
+      nativeBillingReady=false;
+      $("purchase").disabled=true;
+      $("restorePurchase").disabled=true;
+      $("billingMessage").textContent="Google Play nie udostępnia jeszcze produktu. Zakup wyłączony.";
+    }
+  }
   $("setup").textContent="Połączono z projektem "+firebaseConfig.projectId+".";
   const email=()=>$("email").value.trim();
   const password=()=>$("password").value;
@@ -55,9 +90,20 @@ if(!firebaseConfig?.apiKey||!firebaseConfig?.authDomain||!firebaseConfig?.projec
     await sendEmailVerification(auth.currentUser);
     say("Wysłano wiadomość weryfikacyjną. Sprawdź skrzynkę.");
   }));
+  $("purchase").addEventListener("click",()=>action(async()=>{
+    if(!nativeBillingReady||!BILLING_ENABLED||!auth.currentUser)throw Error("billing-not-enabled");
+    await billingPlugin.buy({uid:auth.currentUser.uid});
+    say("Zatwierdź zakup w oknie Google Play. Dostęp włączymy po weryfikacji płatności.");
+  }));
+  $("restorePurchase").addEventListener("click",()=>action(async()=>{
+    if(!nativeBillingReady)throw Error("billing-not-enabled");
+    await billingPlugin.restore();
+    say("Sprawdzono zakupy oczekujące na weryfikację.");
+  }));
   async function refreshAccount(){
     const user=auth.currentUser;
     if(!user)return;
+    show("billingSection",BILLING_ENABLED&&!!billingPlugin);
     await reload(user);
     if(!user.emailVerified){
       $("access").textContent="Potwierdź adres e-mail. Okres 3 dni jeszcze się nie rozpoczął.";
@@ -67,11 +113,13 @@ if(!firebaseConfig?.apiKey||!firebaseConfig?.authDomain||!firebaseConfig?.projec
     $("access").textContent="Sprawdzam uprawnienia i datę okresu próbnego…";
     const ent=await getDocFromServer(doc(db,"entitlements",user.uid));
     if(ent.exists()&&ent.data().tier==="owner"){
+      show("billingSection",false);
       $("access").textContent="Właściciel aplikacji — darmowy dostęp bezterminowo.";
       return;
     }
     const paid=ent.exists()?ent.data().paidUntil:null;
     if(paid && typeof paid.toMillis==="function" && paid.toMillis()>Date.now()){
+      show("billingSection",false);
       $("access").textContent="Opłacony dostęp do: "+paid.toDate().toLocaleString("pl-PL")+".";
       return;
     }
@@ -88,6 +136,10 @@ if(!firebaseConfig?.apiKey||!firebaseConfig?.authDomain||!firebaseConfig?.projec
     const start=snap.data()?.startedAt;
     if(!start||typeof start.toMillis!=="function")throw Error("missing-server-timestamp");
     const end=start.toMillis()+3*24*60*60*1000;
+    if(BILLING_ENABLED&&billingPlugin){
+      show("billingSection",end<=Date.now());
+      $("billingMessage").textContent=nativeBillingReady?"Darmowy okres próbny wygasł. Możesz kupić dostęp przez Google Play.":"Zakup jeszcze niedostępny w Google Play.";
+    }
     $("access").textContent=end>Date.now()
       ?"Trwa bezpłatny okres próbny — do "+new Date(end).toLocaleString("pl-PL")+"."
       :"Bezpłatny okres próbny upłynął. Zakup 7 dni za 5 zł nie jest jeszcze dostępny — wersja testowa pozostaje otwarta.";

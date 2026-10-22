@@ -51,3 +51,7 @@ Przed publiczną sprzedażą konieczny jest audyt klucza i podstaw prawnych, wer
 ## Publikacja Android
 
 Proces budowania AAB (z podpisem dopiero po konfiguracji klucza właściciela) opisano w [PLAY_UPLOAD_KEY.md](PLAY_UPLOAD_KEY.md). Aplikacja docelowo korzysta z API 36. Wersja próbna **nie została jeszcze dopuszczona do publicznej sprzedaży**.
+
+## Model przyszłych opłat
+
+Właściciel (`tier=owner`) ma bezterminowo darmowy dostęp. Planowany jest trzydniowy okres próbny i 7 dni za 5 zł. Przygotowano [moduł Google Play Billing](PAYMENTS_SETUP.md), ale **płatności nie są jeszcze aktywne** — wymagają osobnej konfiguracji Play Console i Firebase Functions na planie Blaze. Nie uruchamiaj paywalla bez serwerowego egzekwowania dostępu. 
