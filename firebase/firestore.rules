@@ -1,0 +1,32 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Użytkownik widzi wyłącznie swój własny okres próbny.
+    // Może go utworzyć jeden raz, ze znacznikiem czasu serwera.
+    // Nie może go przedłużyć, zmodyfikować ani usunąć.
+    match /trials/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list: if false;
+      allow create: if request.auth != null
+                    && request.auth.uid == uid
+                    && request.resource.data.keys().hasOnly(['startedAt'])
+                    && request.resource.data.keys().hasAll(['startedAt'])
+                    && request.resource.data.startedAt == request.time;
+      allow update, delete: if false;
+    }
+
+    // Konto właściciela i zakupione dni ustawia wyłącznie zaufany backend
+    // po weryfikacji zakupu w Google Play albo administrator w Firebase Console.
+    // Klient nigdy nie może nadać sobie uprawnienia 'owner' lub dopisać 7 dni.
+    match /entitlements/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+
+    // Domyślnie wszystkie pozostałe kolekcje są zamknięte.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

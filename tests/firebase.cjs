@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const rules=fs.readFileSync('firebase/firestore.rules','utf8');
+const docs=fs.readFileSync('FIREBASE_SETUP.md','utf8');
+assert(rules.includes('match /trials/{uid}'));
+assert(rules.includes('match /entitlements/{uid}'));
+assert(rules.includes('request.resource.data.startedAt == request.time'));
+assert(rules.includes('allow update, delete: if false'));
+assert(rules.includes('allow list, create, update, delete: if false'));
+assert(docs.includes('nie oznacza') || docs.includes('nie oznacza'));
+console.log('OK Firebase: przygotowano restrykcyjne reguły dostępu (wymagają jeszcze wdrożenia).');
