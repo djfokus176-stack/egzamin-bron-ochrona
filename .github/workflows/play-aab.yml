@@ -71,6 +71,12 @@ jobs:
           else
             echo "NIEPODPISANY: ustaw cztery sekrety PLAY_UPLOAD_* opisane w PLAY_UPLOAD_KEY.md i uruchom build ponownie." > SIGNING_STATUS.txt
           fi
+      - name: Require signed upload bundle
+        run: |
+          if ! grep -q '^PODPISANY' SIGNING_STATUS.txt; then
+            echo "::error::Brak kompletu poprawnie zapisanych sekretów PLAY_UPLOAD_*; nie wolno publikować niepodpisanego AAB."
+            exit 1
+          fi
       - name: Build Android App Bundle
         env:
           UPLOAD_STORE_PASSWORD: ${{ secrets.PLAY_UPLOAD_STORE_PASSWORD }}
