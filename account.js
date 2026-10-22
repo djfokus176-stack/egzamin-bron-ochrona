@@ -27,9 +27,9 @@ if(!firebaseConfig?.apiKey||!firebaseConfig?.authDomain||!firebaseConfig?.projec
    {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,reload},
    {getFirestore,doc,getDocFromServer,setDoc,serverTimestamp}
   ]=await Promise.all([
-   import("https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js"),
-   import("https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js"),
-   import("https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js")
+   import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js"),
+   import("https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js"),
+   import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js")
   ]);
   const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
   $("setup").textContent="Połączono z projektem "+firebaseConfig.projectId+".";

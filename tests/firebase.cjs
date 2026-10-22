@@ -16,3 +16,10 @@ assert(fs.readFileSync('account.js','utf8').includes('getDocFromServer'));
 assert(fs.readFileSync('account.js','utf8').includes('sendEmailVerification'));
 assert(fs.readFileSync('scripts/prepare-web.mjs','utf8').includes('firebase-config.js'));
 console.log('OK Firebase: przygotowano restrykcyjne reguły dostępu (wymagają jeszcze wdrożenia).');
+
+const config=fs.readFileSync('firebase-config.js','utf8');
+assert(config.includes('projectId: "testy-na-bron"'));
+assert(config.includes('authDomain: "testy-na-bron.firebaseapp.com"'));
+assert(config.includes('appId: "1:2068613440:web:b986be63c90c61a93e92a5"'));
+assert(!config.includes('private_key')&&!config.includes('service_account'));
+assert(fs.readFileSync('account.js','utf8').includes('firebasejs/12.19.0/firebase-app.js'));

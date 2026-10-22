@@ -1,6 +1,6 @@
 # Testy na Broń – Ochrona: podłączenie Firebase
 
-**Stan:** projekt Firebase został utworzony na planie Spark. Ten plik przygotowuje konfigurację, ale **nie oznacza**, że Firebase jest już podłączony do aplikacji, że działają logowania lub że pobierane są płatności. Nie uruchamiaj publicznej blokady nauki, dopóki nie zostaną zweryfikowane logowania i uprawnienia.
+**Stan (22.10.2026):** publiczny `firebaseConfig` został dodany do aplikacji dla projektu `testy-na-bron`. To łączy klienta z właściwym projektem, ale **nie potwierdza włączenia Authentication ani utworzenia Firestore i wdrożenia jego reguł**. Płatności nie są uruchomione. Nie uruchamiaj publicznej blokady nauki, dopóki nie zostaną zweryfikowane logowania i uprawnienia.
 
 ## 1. Zarejestruj aplikację internetową
 
@@ -57,6 +57,6 @@ export const firebaseConfig = {
 
 Nie używaj fikcyjnych wartości z tego przykładu. Nazwa projektu widoczna w panelu nie gwarantuje, że prawdziwy `projectId` jest taki sam. Konfiguracja klienta Firebase jest widoczna publicznie, dlatego bezpieczeństwo opiera się na **regułach Firestore, uprawnieniach kont i serwerowej weryfikacji płatności**, a nie na jej ukrywaniu.
 
-Po ustawieniu konfiguracji wejdź na https://djfokus176-stack.github.io/egzamin-bron-ochrona/account.html i przetestuj konto.
+Konfiguracja została już ustawiona przez właściciela w czacie; wejdź na https://djfokus176-stack.github.io/egzamin-bron-ochrona/account.html i przetestuj konto dopiero po aktywacji Email/Password i utworzeniu Firestore z regułami.
 
 **Uwaga:** obecny ekran nie weryfikuje jeszcze zakupów, nie blokuje nauki i nie zapewnia egzekwowania 3 dni przeciwko zakładaniu nowych kont. Przygotowanie frontendu nie oznacza uruchomienia płatnej usługi.
