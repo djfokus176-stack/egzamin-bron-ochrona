@@ -39,3 +39,24 @@ Przykładowy dokument przyznawany właścicielowi przez administracyjną konsol�
 - Sprawdzić legalność i poprawność klucza odpowiedzi oraz aktualizować politykę prywatności, zanim aplikacja będzie sprzedawana.
 
 **Bezpieczeństwo i ograniczenia:** sama baza `trials` nie zapobiegnie tworzeniu nowych kont w celu uzyskania kolejnego okresu próbnego. Połączenie z Firebase, włączenie Email Verification, App Check i zabezpieczenia przeciwko nadużyciom będą potrzebne przy wdrożeniu. Obecnie pytania są statycznie osadzone w aplikacji, więc sam interfejsowy ekran paywalla nie chroni przed modyfikacją kodu; pełna ochrona płatnej bazy wymaga architektury, w której serwer egzekwuje dostęp.
+
+## 5. Ekran konta — przygotowany w repozytorium
+
+Został dodany [account.html](account.html) i [account.js](account.js). Po wpisaniu **wyłącznie publicznego** obiektu `firebaseConfig` do [firebase-config.js](firebase-config.js) i opublikowaniu reguł Firestore ekran umożliwi e-mail/hasło, potwierdzenie adresu, reset hasła, wylogowanie i odczyt trzydniowej próby z serwera.
+
+Na GitHubie otwórz [firebase-config.js](firebase-config.js), kliknij ikonę ołówka i zamień `null` na obiekt z konsoli Firebase, przykładowo:
+
+```js
+export const firebaseConfig = {
+  apiKey: "wartość z Firebase Console",
+  authDomain: "wartość z Firebase Console",
+  projectId: "wartość z Firebase Console",
+  appId: "wartość z Firebase Console"
+};
+```
+
+Nie używaj fikcyjnych wartości z tego przykładu. Nazwa projektu widoczna w panelu nie gwarantuje, że prawdziwy `projectId` jest taki sam. Konfiguracja klienta Firebase jest widoczna publicznie, dlatego bezpieczeństwo opiera się na **regułach Firestore, uprawnieniach kont i serwerowej weryfikacji płatności**, a nie na jej ukrywaniu.
+
+Po ustawieniu konfiguracji wejdź na https://djfokus176-stack.github.io/egzamin-bron-ochrona/account.html i przetestuj konto.
+
+**Uwaga:** obecny ekran nie weryfikuje jeszcze zakupów, nie blokuje nauki i nie zapewnia egzekwowania 3 dni przeciwko zakładaniu nowych kont. Przygotowanie frontendu nie oznacza uruchomienia płatnej usługi.

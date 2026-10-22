@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1323"><title>Moje konto — Testy na Broń – Ochrona</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif}*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 80% -8%,#172e4b 0,transparent 480px),#0b1323;color:#f1f6ff;line-height:1.5}
+main{max-width:650px;padding:24px 18px 65px;margin:0 auto}
+a{color:#66d0ee}.panel{background:#162238;border:1px solid #30435f;border-radius:17px;padding:23px;margin:16px 0}
+h1{font-size:clamp(1.5rem,5vw,2.1rem);line-height:1.2;margin:15px 0}h2{font-size:1.18rem;margin:0 0 12px}
+p{margin:12px 0}label{display:block;margin:13px 0 6px;font-weight:600}
+input{width:100%;padding:12px 14px;background:#0e1b2d;border:1px solid #6484a1;color:white;border-radius:9px;font:inherit}
+button{font:inherit;border:0;border-radius:10px;padding:11px 15px;background:#66d0ee;color:#061b25;font-weight:750;cursor:pointer}
+button.secondary{background:#243a58;color:#f1f6ff;border:1px solid #50708d}button:disabled{opacity:.55;cursor:wait}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.muted{font-size:.91rem;color:#b9c8d9}.status{padding:13px 15px;background:#0d1c2d;border:1px solid #486785;border-radius:10px;white-space:pre-wrap}
+.hidden{display:none}strong{color:#a5f2cc}small{color:#b9c8d9}button:focus-visible,input:focus-visible{outline:3px solid #66d0ee;outline-offset:3px}
+</style></head>
+<body><main>
+<p><a href="./index.html">← Wróć do nauki</a></p>
+<h1>Moje konto</h1>
+<p class="muted">Testy na Broń – Ochrona • niezależna aplikacja edukacyjna, niepowiązana z Policją</p>
+<section class="panel"><h2>Plan dostępu</h2>
+<p><strong>3 dni bezpłatnej próby</strong> od pierwszego potwierdzonego logowania. Potem planowany dostęp za 5 zł na 7 dni, bez automatycznego odnawiania.</p>
+<p class="muted"><strong>Uwaga:</strong> płatności Google Play nie są jeszcze uruchomione, a nauka na razie pozostaje dostępna bez blokady. Ten ekran służy do testowania konta i okresu próbnego.</p>
+</section>
+<section class="panel" aria-labelledby="accountHeading">
+<h2 id="accountHeading">Rejestracja / logowanie</h2>
+<p id="setup" class="status" role="status">Sprawdzam konfigurację Firebase…</p>
+<div id="authFields" class="hidden">
+<form id="accountForm" autocomplete="on">
+<label for="email">Adres e-mail</label><input id="email" name="email" type="email" autocomplete="email" required>
+<label for="password">Hasło (minimum 6 znaków)</label><input id="password" name="password" type="password" minlength="6" autocomplete="current-password" required>
+<div class="actions"><button id="login" type="submit">Zaloguj się</button><button id="register" type="button" class="secondary">Utwórz konto</button><button id="forgot" type="button" class="secondary">Resetuj hasło</button></div>
+</form>
+</div>
+<div id="loggedIn" class="hidden">
+<p>Zalogowano: <strong id="currentEmail"></strong></p>
+<p id="access" class="status" role="status">Sprawdzam okres próbny…</p>
+<div class="actions"><button id="verify" type="button">Sprawdź potwierdzenie e-maila</button><button id="resend" type="button" class="secondary">Wyślij e-mail weryfikacyjny</button><button id="logout" type="button" class="secondary">Wyloguj</button></div>
+<p class="muted">Identyfikator konta (UID): <code id="currentUid"></code>. Właściciel może użyć UID do przyznania darmowego uprawnienia w Firebase Console. Nie przesyłaj haseł.</p>
+</div>
+<p id="feedback" class="status" role="status" aria-live="polite">Nie wprowadzaj hasła do Firebase Console poza oficjalną stroną.</p>
+</section>
+<p class="muted">Wyniki testów wciąż zapisują się lokalnie na urządzeniu. Konto nie synchronizuje jeszcze historii między urządzeniami. <a href="./privacy.html">Informacje o prywatności</a>.</p>
+</main><script type="module" src="./account.js"></script></body></html>
