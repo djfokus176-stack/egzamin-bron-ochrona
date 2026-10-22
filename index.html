@@ -123,7 +123,7 @@ function renderBank(){
 function startExam(mode){
  if(exam&&exam.active){if(!confirm("Zakończyć rozpoczęty test i uruchomić nowy?"))return}
  if(interval)clearInterval(interval);
- const total=mode==="quick"?10:20,qs=rand(Q).slice(0,total);
+ const total=mode==="quick"?10:20,qs=rand(Q.filter(q=>q.n!==134)).slice(0,total);
  exam={active:true,questions:qs,answers:Array(total).fill(null),i:0,end:Date.now()+(mode==="quick"?900000:1800000),total,mode};
  view="exam";document.querySelectorAll("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav==="exam"));
  interval=setInterval(()=>{if(!exam?.active)return;const left=Math.max(0,Math.ceil((exam.end-Date.now())/1000));const el=document.getElementById("timer");if(el)el.textContent=fmtSec(left);if(!left)finishExam()},500);

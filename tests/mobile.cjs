@@ -32,3 +32,5 @@ assert(pkg.dependencies["@capacitor/browser"],"Native browser missing");
 
 assert(cfg.appName==="Testy na Broń – Ochrona","Incorrect Android launcher name");
 assert(html.includes("<title>Testy na Broń – Ochrona"),"Incorrect browser title");
+
+assert(html.includes('rand(Q.filter(q=>q.n!==134))'),"Sporny numer 134 nie może być oceniany");
