@@ -15,5 +15,8 @@ jobs:
       - run: node tests/mobile.cjs
       - run: node tests/firebase.cjs
       - run: node tests/billing.cjs
+      - run: node --check functions/index.js
+      - run: node --check scripts/prepare-android-billing.mjs
+      - run: node --check account.js
       - run: node --check account.js
       - run: node scripts/prepare-web.mjs
