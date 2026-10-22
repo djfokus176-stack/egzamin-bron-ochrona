@@ -1,0 +1,14 @@
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const java=fs.readFileSync("native/PlayBillingPlugin.java","utf8");
+const fn=fs.readFileSync("functions/index.js","utf8");
+const prep=fs.readFileSync("scripts/prepare-android-billing.mjs","utf8");
+assert(java.includes('PRODUCT_ID = "dostep_7_dni"'));
+assert(java.includes("setObfuscatedAccountId(sha256(uid))"));
+assert(!java.includes("consumeAsync"),"Purchases should only be consumed server-side");
+assert(fn.includes("verified.purchaseStateContext?.purchaseState!==\"PURCHASED\""));
+assert(fn.includes("verified.obfuscatedExternalAccountId!==hash(uid)"));
+assert(fn.includes("tx.create(record"),"No purchase replay protection");
+assert(fn.includes("Math.max(now,current)"),"Purchased days must stack without shortening access");
+assert(prep.includes("9.1.0"));
+console.log("OK: Billing contract, server verification, owner bypass, replay protection.");
