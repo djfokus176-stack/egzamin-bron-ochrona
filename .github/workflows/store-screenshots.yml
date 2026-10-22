@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/store-screenshots.yml'
+      - 'index.html'
+      - 'manifest.webmanifest'
 jobs:
   capture:
     runs-on: ubuntu-latest
