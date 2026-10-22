@@ -1,6 +1,6 @@
 {
-  "name": "Quiz Ochrona — Broń i prawo",
-  "short_name": "Quiz Ochrona",
+  "name": "Testy na Broń – Ochrona",
+  "short_name": "Testy na Broń",
   "description": "Niezależna aplikacja do nauki do egzaminu na dopuszczenie do posiadania broni. Nie jest aplikacją Policji.",
   "id": "./",
   "start_url": "./",

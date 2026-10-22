@@ -1,4 +1,4 @@
-const CACHE="egzamin-ochrona-offline-1-2";
+const CACHE="egzamin-ochrona-offline-1-3-1";
 const RESOURCES=["./","./index.html","./report.js","./manifest.webmanifest","./icons/icon.svg","./privacy.html","./audit.html"];
 self.addEventListener("install",event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(RESOURCES)).then(()=>self.skipWaiting()));

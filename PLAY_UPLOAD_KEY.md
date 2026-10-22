@@ -41,7 +41,7 @@ Podpisany AAB prześlij do **testów wewnętrznych** Google Play Console. Nie wy
 ## Uwagi
 
 - `applicationId` = `pl.djfokus176.quizochrona`; po opublikowaniu nie zmieniaj identyfikatora.
-- `versionCode` = 2, `versionName` = 1.3.0. Przy kolejnym wydaniu należy zwiększyć versionCode.
+- `versionCode` = 3, `versionName` = 1.3.1. Przy kolejnym wydaniu należy zwiększyć versionCode.
 - Capacitor 8 celuje w API 36. Workflow sprawdza tę wartość przy każdej kompilacji.
 - Po aktywowaniu Play App Signing podpis Google Play chroni aplikację wydawaną użytkownikom. Własny **upload key** nadal służy do podpisywania kolejnych aktualizacji.
 - Nie publikuj publicznie bez zakończenia audytu klucza odpowiedzi, uzupełnienia danych wydawcy w polityce prywatności i przejścia wymaganych testów w Google Play.

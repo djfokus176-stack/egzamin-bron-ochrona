@@ -1,4 +1,4 @@
-# Egzamin Broń / Ochrona
+# Testy na Broń – Ochrona
 
 Nieoficjalna, darmowa aplikacja treningowa do egzaminu na **dopuszczenie do posiadania broni** dla kwalifikowanych pracowników ochrony fizycznej.
 

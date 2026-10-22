@@ -1,6 +1,6 @@
 # Google Play — gotowy tekst opisu (PL)
 
-**Nazwa aplikacji (Google Play):** Quiz Ochrona – Testy ABC
+**Nazwa aplikacji (Google Play):** Testy na Broń – Ochrona
 
 **Krótki opis (poniżej 80 znaków):**
 
@@ -8,7 +8,7 @@
 
 ## Pełny opis
 
-**Quiz Ochrona – Testy ABC** to niezależna aplikacja edukacyjna wspierająca przygotowanie do części teoretycznej egzaminu z przepisów dotyczących broni i amunicji oraz dopuszczenia do posiadania broni.
+**Testy na Broń – Ochrona** to niezależna aplikacja edukacyjna wspierająca przygotowanie do części teoretycznej egzaminu z przepisów dotyczących broni i amunicji oraz dopuszczenia do posiadania broni.
 
 Najważniejsze funkcje:
 - Zestaw 200 pytań i wariantów odpowiedzi A/B/C na podstawie bazy egzaminacyjnej opublikowanej przez Policję.

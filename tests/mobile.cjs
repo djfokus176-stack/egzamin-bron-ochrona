@@ -8,7 +8,7 @@ assert(html.includes('rel="manifest"'),"Missing PWA manifest");
 assert(html.includes('privacy.html'),"Missing privacy link");
 assert(html.includes('audit.html'),"Missing audit source page");
 assert(html.includes('200 pytań'),"No questions");
-assert(manifest.name.includes("Quiz Ochrona"));
+assert(manifest.name==="Testy na Broń – Ochrona");
 assert(manifest.icons.some(x=>x.src==="./icons/icon.svg"));
 assert(fs.existsSync("sw.js"),"Missing offline service worker");
 assert(fs.existsSync("privacy.html"),"Missing privacy info");
@@ -29,3 +29,6 @@ assert(fs.existsSync(".github/workflows/play-aab.yml"),"No AAB build workflow");
 assert(fs.readFileSync(".github/workflows/play-aab.yml","utf8").includes("bundleRelease"));
 assert(fs.readFileSync(".github/workflows/play-aab.yml","utf8").includes("targetSdkVersion"));
 assert(pkg.dependencies["@capacitor/browser"],"Native browser missing");
+
+assert(cfg.appName==="Testy na Broń – Ochrona","Incorrect Android launcher name");
+assert(html.includes("<title>Testy na Broń – Ochrona"),"Incorrect browser title");
