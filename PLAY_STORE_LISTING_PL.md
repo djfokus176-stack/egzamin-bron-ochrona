@@ -1,53 +1,54 @@
-# Google Play — gotowy tekst opisu (PL)
+# Google Play – teksty do wklejenia (stan: 23.10.2026)
 
-**Nazwa aplikacji (Google Play):** Testy na Broń – Ochrona
+## Nazwa
 
-**Krótki opis (poniżej 80 znaków):**
+Testy na Broń – Ochrona
+
+## Krótki opis (71/80 znaków)
 
 200 pytań ABC, próbne egzaminy i powtórki błędów. Aplikacja niezależna.
 
-## Pełny opis
+## Pełny opis (1347/4000 znaków)
 
-**Testy na Broń – Ochrona** to niezależna aplikacja edukacyjna wspierająca przygotowanie do części teoretycznej egzaminu z przepisów dotyczących broni i amunicji oraz dopuszczenia do posiadania broni.
+Testy na Broń – Ochrona to niezależna aplikacja edukacyjna pomagająca przygotować się do części teoretycznej egzaminu dotyczącego przepisów o broni i amunicji oraz dopuszczenia do posiadania broni.
 
-Najważniejsze funkcje:
-- Zestaw 200 pytań i wariantów odpowiedzi A/B/C na podstawie bazy egzaminacyjnej opublikowanej przez Policję.
-- Nauka z natychmiastowym sprawdzeniem odpowiedzi.
-- Próbny egzamin: 20 pytań, 30 minut, próg 18 poprawnych odpowiedzi.
-- Szybki test 10 pytań.
-- Baza własnych błędów, statystyki pomyłek i powtórki aż do opanowania pytań.
-- Lokalny zapis postępów i eksport/import historii w JSON.
-- Możliwość zgłaszania wątpliwości do klucza przez GitHub Issues (wymaga konta GitHub, zgłoszenia są publiczne).
-- Nauka dostępna bez połączenia z internetem.
+W aplikacji znajdziesz zestaw 200 pytań A/B/C do samodzielnej nauki i powtórek. Możesz ćwiczyć w swoim tempie albo rozwiązać próbny egzamin.
 
-**Ważne:** Aplikacja nie jest oficjalną aplikacją Policji, nie jest wydawana ani autoryzowana przez jakikolwiek organ państwowy. Nie pozwala załatwiać spraw urzędowych. Pytania mają źródło w publicznym zestawie Policji, ale klucz poprawnych odpowiedzi jest **nieoficjalnym opracowaniem edukacyjnym**, wymagającym dalszej kontroli zgodności z aktualnymi przepisami. Aplikacja nie gwarantuje zdania państwowego egzaminu.
+FUNKCJE:
+• Nauka pytań z natychmiastowym sprawdzaniem odpowiedzi.
+• Próbny egzamin: 20 pytań i limit 30 minut.
+• Krótki test składający się z 10 pytań.
+• Powtórki błędnie rozwiązanych pytań.
+• Historia wyników i postępów na urządzeniu.
+• Eksport i import historii nauki.
+• Możliwość zgłoszenia wątpliwości dotyczącej pytania.
 
-Oficjalna baza pytań:
-https://ksp.policja.gov.pl/download/188/236472/PYTANIAEGZAMINACYJNE.pdf
+Aplikacja służy do nauki, nie do składania wniosków urzędowych. Nie jest oficjalną aplikacją Policji ani żadnego innego organu państwowego; nie została przez nie wydana ani autoryzowana.
 
-Przepisy:
-https://eli.gov.pl/api/acts/DU/2024/485/text.html
+Materiał edukacyjny opiera się na publicznie dostępnym zestawie pytań egzaminacyjnych. Klucz odpowiedzi jest nieoficjalny i nadal podlega kontroli zgodności z aktualnymi przepisami. Program nie gwarantuje zaliczenia egzaminu.
 
-Informacje o stanie weryfikacji:
-https://djfokus176-stack.github.io/egzamin-bron-ochrona/audit.html
+Wersja testowa umożliwia utworzenie konta e-mail. Nauka jest obecnie dostępna bez opłat. Planowana obsługa płatności nie jest jeszcze aktywna.
 
-Polityka prywatności:
-https://djfokus176-stack.github.io/egzamin-bron-ochrona/privacy.html
+Więcej informacji o stanie weryfikacji pytań i ochronie danych znajdziesz na stronie aplikacji i w polityce prywatności.
 
-## Konfiguracja w Play Console
+## Kontakt i informacje uzupełniające
 
-- **Kategoria:** Edukacja
-- **Cena:** na początek bezpłatna; późniejsza zmiana modelu wymaga przeanalizowania zasad Play.
-- **Reklamy:** brak w obecnej wersji.
-- **Zakupy w aplikacji:** brak w obecnej wersji.
-- **Wymagane od wydawcy:** prawdziwy adres kontaktowy e-mail do wsparcia, informacje o deweloperze, formularz bezpieczeństwa danych, deklaracja treści rządowych / brak powiązania z Policją, klasyfikacja treści i wymagany test.
-- **Zastrzeżenie:** nie wybieraj w konsoli odpowiedzi dotyczących danych osobowych bez sprawdzenia wszystkich komponentów, w tym GitHub Issues oraz hostingu GitHub Pages.
+- Kategoria: Edukacja
+- Publiczna strona: https://djfokus176-stack.github.io/egzamin-bron-ochrona/
+- Polityka prywatności: https://djfokus176-stack.github.io/egzamin-bron-ochrona/privacy.html
+- Weryfikacja pytań: https://djfokus176-stack.github.io/egzamin-bron-ochrona/audit.html
+- Kontakt do wsparcia: djfokus176@gmail.com (adres podany przez wydawcę)
+- Reklamy: brak w aktualnej wersji
+- Funkcje finansowe: brak produktów/usług finansowych (sam zakup dostępu przez Google Play nie czyni z aplikacji portfela ani banku)
+- Funkcje zdrowotne: brak
+- Aplikacja instytucji państwowej: nie; niezależny projekt edukacyjny
 
-## Grafiki
+## Materiały graficzne
 
-- `play_icon_512.png`: 512×512 (ikona sklepu)
-- `feature_graphic_1024x500.png`: 1024×500 (grafika promocyjna)
-- Wykonane przez Playwright zrzuty ekranu aplikacji: workflow `Zrzuty ekranu Google Play` → `Artifacts` → cztery obrazy 1080×1920.
-- Przejrzyj finalne zrzuty i upewnij się, że odpowiadają bieżącej wersji programu i nie pokazują prywatnych danych.
+- Ikona 512×512: `play_icon_512.png`
+- Grafika promocyjna 1024×500: `feature_graphic_1024x500.png`
+- Zrzuty ekranu: workflow `Zrzuty ekranu Google Play`
 
-Nie prześlij aplikacji do produkcji bez ukończenia audytu 200 odpowiedzi i podpisania AAB.
+## Uwaga przed publikacją
+
+To są uczciwe opisy aktualnej wersji testowej, nie potwierdzenie zgodności ze wszystkimi politykami Google Play. Płatności 5 zł/7 dni nie działają, treści są nadal w publicznym kodzie, audyt wszystkich 200 odpowiedzi nie jest zakończony. Opis i deklaracje trzeba ponownie ocenić przed wydaniem płatnej wersji.
